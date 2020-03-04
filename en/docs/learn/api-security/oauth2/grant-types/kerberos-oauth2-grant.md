@@ -86,7 +86,7 @@ Follow the instructions below to configure Kerberos Grant with WSO2 API Manager
     ``` java
     Server {
         com.sun.security.auth.module.Krb5LoginModule required
-        useKeyTab=tfalse
+        useKeyTab=false
         storeKey=true
         useTicketCache=false
         isInitiator=false;
@@ -151,9 +151,59 @@ Follow the instructions below to configure Kerberos Grant with WSO2 API Manager
 
         [![](../../../../assets/img/learn/kerberos-grant-idp.png)](../../../../assets/img/learn/kerberos-grant-idp.png)
 
-    5.  Generate the kerberos token.
+5.  Generate the kerberos token.
+    
+    1.  Git clone the `             KerbClientProject            ` .
 
-6.  Invoke the token endpoint using the message format discussed in [step 3](#kerberos-grant-token-request) .
+        ``` java
+        git clone https://github.com/erandacr/KerbClientProject
+        ```
+
+    2.  Run KerbClient.cs using an IDE.  
+        You can run it using Visual Studio by downloading and installing
+        the following required libraries and programs.
+
+        -   [Visual Studio
+            sdk](https://www.microsoft.com/net/download/visual-studio-sdks)
+            (.NET Core 2.1)
+        -   [Microsoft Visual
+            Studio](https://visualstudio.microsoft.com/downloads/)
+            (Professional Edition)
+        -   Install the `              System.Net.Http.dll             `
+            and define the path in the ‘
+            `              KerbClientProject.csproj             ` ’
+            file.
+
+        !!! tip
+        
+                **Tip:** Note that you can also use any other IDE to run this
+                project.
+        
+
+    3.  Configure the following parameters in the project according to
+        your setup.
+
+        ``` java
+        // Service Name goes here
+        static string serviceName = "HTTP/apimserver.example.com@EXAMPLE.COM";
+        // Token endpoint URL
+        static string URI = "https://idp.example.com:9443/oauth2/token";
+        // Client ID
+        static string username = "1ouL2fO6SxlfD2LDw125cTo0vQka";
+        // Client Secret
+        static string password = "uUEtm89tY6QZuZUmqZfL92BDFeAa";
+        // Kerberos realm name
+        static string realm_Name = "example.com";
+        ```
+
+    4.  Run the project by selecting the **Start without Debugging**
+        option on the Visual Studio editor.
+
+    This project generates a Kerberos ticket and a kerberos token is
+    generated using the ticket. The generated token can be used to get
+    the OAuth token.
+    
+7.  Invoke the token endpoint using the message format discussed in [step 3](#kerberos-grant-token-request) .
 
     !!! note
         Note that for users to be counted in the [Registered Users for Application statistics](../../../../../analytics/analyzing-apim-statistics-with-batch-analytics/viewing-api-statistics/#ViewingAPIStatistics-TopUsersperApplication) which takes the number of users shared each of the Application, they should have to generate access tokens using [Password Grant](../password-grant/) type.
